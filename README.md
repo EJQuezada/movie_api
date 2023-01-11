@@ -1,4 +1,4 @@
-# MyFlix-Movie-Api (Server-side Project)
+# MyFlix Movie-Api (A Server-side Project)
 
 # Description
 
