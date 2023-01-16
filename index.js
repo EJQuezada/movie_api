@@ -1,6 +1,23 @@
 const express = require ("express");
 const app = express();
 
+//static
+app.use(express.static("public"));
+app.use(morgan("common"));
+
+//returns a welcome message
+app.get("/", (req, res) => {
+    res.send("Welcome to MyFlix!");
+});
+
+//ERROR Handling
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  });
+
+//List of top 10 movies
+
 let top10Movies = [
     {
         title: 'The Goonies',
