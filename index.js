@@ -6,6 +6,26 @@ const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/MyFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+
+app.use(bodyParser.json());
+  
+
+//return JSON object when at /movies
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Movies.find()
+        .then((movies) => {
+            res.status(201).json(movies);
+        })
+        .catch((error) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+    
+});
+
 //CREATE allows new users to register
 
 app.post('/users', (req, res) => {
