@@ -1,18 +1,19 @@
-const express = require('express'),
-      bodyParser = require('body-parser'),
-      mongoose = require('mongoose'),
-      Models = require('./models.js');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
 
 const app = express();
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/MyFlixDB', { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true, 
+mongoose.connect('mongodb://localhost:27017/myFlix', { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
 });
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 let auth = require('./auth')(app);
 const passport = require('passport');
@@ -25,7 +26,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
             res.status(201).json(movies);
         })
         .catch((error) => {
-            console.error(err);
+            console.log(error);
             res.status(500).send('Error: ' + error);
         });
     
@@ -49,13 +50,13 @@ app.post('/users', (req, res) => {
                     .then((user) =>{res.status(201).json(user) })
                 .catch((error) => {
                     console.error(error);
-                    res.status(500).send('Error: ' + err);
+                    res.status(500).send('Error: ' + error);
                 })
             }
         })
         .catch((error) => {
             console.error(error);
-            res.status(500).send('Error: ' + err);
+            res.status(500).send('Error: ' + error);
         });
 });
 
@@ -66,8 +67,8 @@ app.get('/users', (req, res) => {
             res.status(201).json(users);
         })
         .catch((err) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
+            console.error(error);
+            res.status(500).send('Error: ' + error);
         });
 });
 
@@ -77,9 +78,9 @@ app.get('/users/:Username', (req, res) => {
         .then((user) => {
             res.json(user);
         })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
         });
 });
 
@@ -95,10 +96,10 @@ app.put('/users/:Username', (req, res) => {
         }
     },
     { new: true }, //This line makes sure that the updated document is returned
-    (err, updatedUser) => {
-        if(err) {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
+    (error, updatedUser) => {
+        if(error) {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
         } else {
             res.json(updatedUser);
         }
@@ -111,10 +112,10 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
         $push: { FavoriteMovies: req. params.MovieID}
     },
     { new: true }, //This line makes sure that the updated document is returned
-    (err, updatedUser) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
+    (error, updatedUser) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
         } else {
             res.json(updatedUser);
         }
@@ -131,8 +132,10 @@ app.delete('/users/:Username', (req, res) => {
                 res.status(200).send(req.params.Username + ' was deleted.');
             }
         })
-        .catch ((err) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
+        .catch ((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
         });
 });
+
+app.listen(8080, () => console.log("listening on 8080"))
