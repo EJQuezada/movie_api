@@ -1,1 +1,6 @@
-* node_modules
+# directories
+server.js
+
+
+#files
+.env
