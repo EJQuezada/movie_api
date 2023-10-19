@@ -1,14 +1,14 @@
 # MyFlix Movie-Api (A Server-side Project)
 
-# Description
+## Description
 
 MyFlix is a web application created to provide users with access to information about different movies, directors, genres, and ratings.  Users will be able to sign up, update their personal information, and create a list of their favorite flicks.
 
-# Tech Stack
+## Tech Stack
 - Node.js
 - Express
 
-# Features
+## Features
 - Returns a list of ALL movies in the database to the user
 - Returns data (description, genre, director, image URL whether it is featured or not) about a single movie by title to the user
 - Return data about a genre by name/title (e.g. "Comedy")
